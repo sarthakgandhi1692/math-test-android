@@ -24,6 +24,15 @@ import androidx.compose.ui.unit.sp
 import com.example.mathTest.R
 import com.example.mathTest.model.enums.GameResult
 
+/**
+ * Composable function for displaying the game result screen.
+ *
+ * @param yourScore The player's score.
+ * @param opponentScore The opponent's score.
+ * @param result The result of the game (WIN, LOSE, DRAW).
+ * @param onBackToHome Callback function for navigating back to the home screen.
+ * @param onViewLeaderboard Callback function for navigating to the leaderboard screen.
+ */
 @Composable
 fun GameResultScreen(
     yourScore: Int,

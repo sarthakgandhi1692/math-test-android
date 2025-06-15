@@ -8,12 +8,20 @@ import io.github.jan.supabase.auth.user.UserInfo
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Interface for authentication data source using Supabase.
+ */
 interface SupabaseAuthDataSource {
     suspend fun signIn(email: String, password: String)
     suspend fun signUp(email: String, password: String)
     suspend fun signOut()
     suspend fun getCurrentUser(): UserInfo?
 }
+
+/**
+ * Implementation of [SupabaseAuthDataSource] that uses Supabase for authentication.
+ * @property supabaseClient The Supabase client instance.
+ */
 
 @Singleton
 class SupabaseAuthDataSourceImpl @Inject constructor(

@@ -20,6 +20,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+/**
+ * NetworkModule class for dependency injection, provides retrofit, okHttpClient and other related network services
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {

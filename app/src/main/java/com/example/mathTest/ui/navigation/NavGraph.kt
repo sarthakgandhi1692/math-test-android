@@ -12,6 +12,12 @@ import com.example.mathTest.ui.game.GameScreen
 import com.example.mathTest.ui.home.HomeScreen
 import com.example.mathTest.ui.leaderboard.LeaderboardScreen
 
+/**
+ * Composable function that defines the navigation graph for the application.
+ * It uses Jetpack Navigation to handle navigation between different screens.
+ * @param navController The NavHostController used for navigation.
+ * @param startDestination The starting screen of the navigation graph. Defaults to Screen.Login.
+ */
 @Composable
 fun NavGraph(
     navController: NavHostController,

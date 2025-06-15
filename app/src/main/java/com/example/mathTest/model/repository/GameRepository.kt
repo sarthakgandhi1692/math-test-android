@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Interface for the game repository, defining operations related to game state and actions.
+ */
 interface GameRepository {
     val gameState: StateFlow<GameState>
     val gameStatus: StateFlow<GameStatus>
@@ -22,6 +25,9 @@ interface GameRepository {
     suspend fun leaveWaitingRoom()
 }
 
+/**
+ * Implementation of [GameRepository] that interacts with a [GameWebSocketDataSource].
+ */
 @Singleton
 class GameRepositoryImpl @Inject constructor(
     private val webSocket: GameWebSocketDataSource

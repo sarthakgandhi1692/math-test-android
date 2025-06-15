@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mathTest.R
@@ -29,8 +28,14 @@ import com.example.mathTest.ui.auth.components.AuthButton
 import com.example.mathTest.ui.auth.components.AuthErrorText
 import com.example.mathTest.ui.auth.components.AuthTextField
 
+/**
+ * Composable function that represents the registration screen of the application.
+ *
+ * @param onNavigateToLogin Callback function to navigate to the login screen.
+ * @param onRegisterSuccess Callback function to be executed when registration is successful.
+ * @param viewModel The [AuthViewModel] used to manage the state and actions of the registration process.
+ */
 @Composable
-@Preview
 fun RegisterScreen(
     onNavigateToLogin: () -> Unit = {},
     onRegisterSuccess: () -> Unit = {},
@@ -71,6 +76,15 @@ fun RegisterScreen(
     }
 }
 
+/**
+ * Composable function that represents the registration form.
+ *
+ * @param isLoading Boolean flag indicating if the registration process is in progress.
+ * @param error String containing an error message if registration fails, or null otherwise.
+ * @param onRegister Callback function to be executed when the register button is clicked.
+ * It takes the email, password, and confirm password as arguments.
+ * @param modifier The modifier to be applied to the form.
+ */
 @Composable
 private fun RegisterForm(
     isLoading: Boolean,

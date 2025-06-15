@@ -29,6 +29,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mathTest.R
 import com.example.mathTest.ui.uiStates.GameStatus
 
+/**
+ * Composable function for the Home Screen.
+ * Displays options to find an opponent, view the leaderboard, or logout.
+ * Handles navigation to the game screen when an opponent is found.
+ *
+ * @param onNavigateToGame Callback to navigate to the game screen.
+ * @param onNavigateToLeaderboard Callback to navigate to the leaderboard screen.
+ * @param onLogout Callback to handle user logout.
+ * @param viewModel The [HomeViewModel] used to manage the state of the Home Screen.
+ */
 @Composable
 fun HomeScreen(
     onNavigateToGame: () -> Unit,

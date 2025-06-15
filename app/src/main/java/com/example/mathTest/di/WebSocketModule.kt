@@ -10,6 +10,9 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt module for providing WebSocket related dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class WebSocketModule {

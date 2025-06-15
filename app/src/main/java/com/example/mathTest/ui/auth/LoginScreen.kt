@@ -28,6 +28,13 @@ import com.example.mathTest.ui.auth.components.AuthButton
 import com.example.mathTest.ui.auth.components.AuthErrorText
 import com.example.mathTest.ui.auth.components.AuthTextField
 
+/**
+ * Composable function that represents the Login Screen.
+ *
+ * @param onNavigateToRegister Callback to navigate to the registration screen.
+ * @param onLoginSuccess Callback invoked when login is successful.
+ * @param viewModel The [AuthViewModel] used for managing authentication state and actions.
+ */
 @Composable
 fun LoginScreen(
     onNavigateToRegister: () -> Unit = {},
@@ -69,6 +76,14 @@ fun LoginScreen(
     }
 }
 
+/**
+ * Composable function for the login form.
+ *
+ * @param isLoading Boolean indicating if a login operation is in progress.
+ * @param error A string representing an error message, or null if no error.
+ * @param onLogin Callback function invoked when the login button is clicked, taking email and password as parameters.
+ * @param modifier The modifier to be applied to the form.
+ */
 @Composable
 private fun LoginForm(
     isLoading: Boolean,

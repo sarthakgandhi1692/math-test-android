@@ -3,6 +3,9 @@ package com.example.mathTest.model.response
 import com.squareup.moshi.Json
 import se.ansman.kotshi.JsonSerializable
 
+/**
+ * Represents a single entry in the leaderboard.
+ */
 @JsonSerializable
 data class LeaderboardEntry(
     @Json(name = "id")
@@ -17,6 +20,9 @@ data class LeaderboardEntry(
     var totalGames: Int = 0
 )
 
+/**
+ * Represents the response for a leaderboard request, containing a list of top players.
+ */
 @JsonSerializable
 data class LeaderboardResponse(
     @Json(name = "topPlayers")

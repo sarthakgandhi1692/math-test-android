@@ -8,6 +8,9 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt module that provides API-related dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {

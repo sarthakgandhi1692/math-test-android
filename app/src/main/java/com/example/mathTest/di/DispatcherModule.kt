@@ -11,6 +11,10 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 
+/**
+ * Hilt module that provides Coroutine Dispatchers.
+ * This module is installed in the SingletonComponent, making the dispatchers available application-wide.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class DispatcherModule {

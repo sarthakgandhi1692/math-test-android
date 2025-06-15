@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Use case responsible for updating the time left in the game and managing the game timer.
+ */
 class UpdateTimeLeftUseCase @Inject constructor(
     private val gameRepository: GameRepository
 ) {

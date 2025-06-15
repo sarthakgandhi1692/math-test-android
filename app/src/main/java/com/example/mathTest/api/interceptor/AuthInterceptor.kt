@@ -7,6 +7,9 @@ import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Interceptor for adding Authorization header to requests.
+ */
 @Singleton
 class AuthInterceptor @Inject constructor(
     private val authRepository: AuthRepository

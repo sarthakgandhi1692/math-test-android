@@ -18,6 +18,10 @@ import io.ktor.utils.io.InternalAPI
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * Hilt module for providing Supabase-related dependencies.
+ * This module is installed in the [SingletonComponent], meaning the provided dependencies will have a singleton scope.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 @OptIn(InternalAPI::class)

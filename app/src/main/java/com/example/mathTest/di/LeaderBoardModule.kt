@@ -10,7 +10,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
+/**
+ * Hilt module that provides dependencies related to the leaderboard feature.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class LeaderBoardModule {

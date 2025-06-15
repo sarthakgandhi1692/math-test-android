@@ -10,6 +10,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Hilt module that provides constant values.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class ConstantsModule {

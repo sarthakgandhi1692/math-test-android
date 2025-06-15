@@ -6,16 +6,41 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.mathTest.model.local.UserInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Interface for accessing user preferences data.
+ * This interface defines methods for retrieving, saving, and clearing user information,
+ * as well as observing changes in user login status and current user info.
+ */
+interface UserPreferencesDataSource {
+    val currentUserInfo: Flow<UserInfo>
+    val isUserLoggedIn: Flow<Boolean>
+    suspend fun saveUserInfo(
+        userId: String,
+        email: String,
+        name: String,
+        token: String
+    )
+
+    suspend fun clearUserInfo()
+}
+
+/**
+ * Data source for user preferences, stored in DataStore.
+ * This class provides methods to save, clear, and retrieve user information
+ * such as user ID, email, name, and JWT token.
+ * It also provides a Flow to observe changes in user login status.
+ */
 @Singleton
-class UserPreferencesDataSource @Inject constructor(
+class UserPreferencesDataSourceImpl @Inject constructor(
     @ApplicationContext private val context: Context
-) {
+) : UserPreferencesDataSource {
     private val dataStore by lazy {
         context.dataStore
     }
@@ -28,7 +53,7 @@ class UserPreferencesDataSource @Inject constructor(
         private val JWT_TOKEN = stringPreferencesKey("jwt_token")
     }
 
-    suspend fun saveUserInfo(
+    override suspend fun saveUserInfo(
         userId: String,
         email: String,
         name: String,
@@ -42,7 +67,7 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun clearUserInfo() {
+    override suspend fun clearUserInfo() {
         dataStore.edit { preferences ->
             preferences.remove(USER_ID)
             preferences.remove(USER_EMAIL)
@@ -51,15 +76,7 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    // Get current saved user info as a data class
-    data class UserInfo(
-        val userId: String?,
-        val email: String?,
-        val name: String?,
-        val token: String?
-    )
-
-    val currentUserInfo: Flow<UserInfo> = dataStore.data.map { preferences ->
+    override val currentUserInfo: Flow<UserInfo> = dataStore.data.map { preferences ->
         UserInfo(
             userId = preferences[USER_ID],
             email = preferences[USER_EMAIL],
@@ -68,8 +85,7 @@ class UserPreferencesDataSource @Inject constructor(
         )
     }
 
-    // Check if user is logged in
-    val isUserLoggedIn: Flow<Boolean> = dataStore.data.map { preferences ->
+    override val isUserLoggedIn: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[USER_ID] != null && preferences[JWT_TOKEN] != null
     }
 }

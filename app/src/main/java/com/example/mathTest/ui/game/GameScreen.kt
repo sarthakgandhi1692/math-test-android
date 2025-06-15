@@ -35,6 +35,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mathTest.R
 import com.example.mathTest.ui.uiStates.GameState
 
+/**
+ * Composable function for the game screen.
+ * @param onGameEnd Callback function to be invoked when the game ends.
+ * @param viewModel The view model for the game screen.
+ */
 @Composable
 fun GameScreen(
     onGameEnd: (GameState) -> Unit,
@@ -102,6 +107,11 @@ fun GameScreen(
     }
 }
 
+/**
+ * Composable function for displaying the game timer.
+ * @param timeLeft The remaining time in seconds.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun GameTimer(
     timeLeft: Int,
@@ -116,6 +126,11 @@ private fun GameTimer(
     )
 }
 
+/**
+ * Composable function for displaying the game score.
+ * @param score The current score.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun GameScore(
     score: Int,
@@ -128,6 +143,12 @@ private fun GameScore(
     )
 }
 
+/**
+ * Composable function for the end game button.
+ * @param isEnabled Whether the button is enabled.
+ * @param onEndGame Callback function to be invoked when the button is clicked.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun EndGameButton(
     isEnabled: Boolean,
@@ -143,6 +164,13 @@ private fun EndGameButton(
     }
 }
 
+/**
+ * Composable function for displaying the question card.
+ * @param expression The mathematical expression to be displayed.
+ * @param questionNumber The current question number.
+ * @param totalQuestions The total number of questions.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun QuestionCard(
     expression: String,
@@ -184,6 +212,12 @@ private fun QuestionCard(
     }
 }
 
+/**
+ * Composable function for the answer input field and submit button.
+ * @param isGameActive Whether the game is active.
+ * @param onSubmitAnswer Callback function to be invoked when the answer is submitted.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun AnswerInput(
     isGameActive: Boolean,
@@ -224,6 +258,10 @@ private fun AnswerInput(
     }
 }
 
+/**
+ * Composable function for displaying the game over message.
+ * @param modifier The modifier to be applied to the layout.
+ */
 @Composable
 private fun GameOverMessage(
     modifier: Modifier = Modifier

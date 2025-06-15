@@ -8,6 +8,10 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
+/**
+ * A [Converter.Factory] for converting [String] to and from [RequestBody] and [ResponseBody].
+ * This is used by Retrofit to handle plain text request and response bodies.
+ */
 class StringConverter : Converter.Factory() {
 
     override fun responseBodyConverter(

@@ -44,6 +44,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mathTest.R
 import com.example.mathTest.model.response.LeaderboardEntry
 
+/**
+ * Composable function for the Leaderboard Screen.
+ *
+ * @param onBackClick Callback to be invoked when the back button is clicked.
+ * @param viewModel The ViewModel for this screen.
+ */
 @Composable
 fun LeaderboardScreen(
     onBackClick: () -> Unit,
@@ -118,6 +124,12 @@ fun LeaderboardScreen(
     }
 }
 
+/**
+ * Composable function to display a single row in the leaderboard.
+ *
+ * @param entry The LeaderboardEntry data to display.
+ * @param position The position of the entry in the leaderboard (0-indexed).
+ */
 @Composable
 private fun LeaderboardRow(
     entry: LeaderboardEntry,

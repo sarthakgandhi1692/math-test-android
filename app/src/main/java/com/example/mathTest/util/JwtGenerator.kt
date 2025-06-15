@@ -8,6 +8,12 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Generates JWT tokens for Supabase authentication.
+ *
+ * This class is responsible for creating JWT tokens with the necessary claims
+ * for authenticating users with a Supabase backend.
+ */
 @Singleton
 class JwtGenerator
 @Inject constructor(

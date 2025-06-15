@@ -13,6 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mathTest.ui.navigation.NavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * The main activity of the application.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

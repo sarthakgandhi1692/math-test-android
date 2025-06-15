@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the game screen.
+ */
 @HiltViewModel
 class GameViewModel @Inject constructor(
     getGameStateUseCase: GetGameStateUseCase,

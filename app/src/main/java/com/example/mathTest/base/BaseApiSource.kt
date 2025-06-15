@@ -4,7 +4,11 @@ import android.util.Log
 import com.squareup.moshi.Moshi
 import retrofit2.Response
 
-
+/**
+ * Base class for API data sources.
+ * This class provides a common structure for making API calls and handling responses.
+ * It uses Retrofit for network requests and Moshi for JSON parsing.
+ */
 abstract class BaseApiSource {
 
     companion object {
@@ -61,6 +65,14 @@ abstract class BaseApiSource {
     }
 }
 
+/**
+ * Custom exception class for API errors.
+ * This exception is thrown when an API call fails and an error response is received.
+ *
+ * @property responseCode The HTTP status code of the error response.
+ * @property errorResponse The parsed error response body, if available.
+ * Custom exception class for API errors.
+ */
 class ApiException(
     val responseCode: Int,
     val errorResponse: ErrorResponse?

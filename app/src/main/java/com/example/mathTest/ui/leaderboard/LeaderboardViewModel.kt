@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mathTest.base.Result
 import com.example.mathTest.di.qualifiers.DispatcherIO
-import com.example.mathTest.model.repository.LeaderboardRepository
+import com.example.mathTest.domain.leaderboardUseCases.GetLeaderboardUseCase
 import com.example.mathTest.ui.uiStates.LeaderboardState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,9 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+/**
+ * ViewModel for the Leaderboard screen.
+ *
+ * @param getLeaderboardUseCase The use case for fetching leaderboard data.
+ * @param dispatcherIO The CoroutineDispatcher for IO operations.
+ */
 @HiltViewModel
 class LeaderboardViewModel @Inject constructor(
-    private val leaderboardRepository: LeaderboardRepository,
+    private val getLeaderboardUseCase: GetLeaderboardUseCase,
     @DispatcherIO
     private val dispatcherIO: CoroutineDispatcher
 ) : ViewModel() {
@@ -37,7 +43,7 @@ class LeaderboardViewModel @Inject constructor(
             )
 
             try {
-                val leaderboard = leaderboardRepository.getLeaderboard()
+                val leaderboard = getLeaderboardUseCase()
                 when (leaderboard) {
                     is Result.Error -> {
                         _state.value = _state.value.copy(

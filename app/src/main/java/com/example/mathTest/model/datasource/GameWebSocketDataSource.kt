@@ -15,6 +15,9 @@ import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Interface for managing WebSocket connections for game-related communication.
+ */
 interface GameWebSocketDataSource {
     var onMessageReceived: ((WebSocketMessage) -> Unit)?
 
@@ -23,6 +26,10 @@ interface GameWebSocketDataSource {
     fun sendMessage(message: WebSocketMessage)
 }
 
+/**
+ * Implementation of [GameWebSocketDataSource] that uses OkHttp for WebSocket communication.
+ * Handles connecting, disconnecting, sending messages, and processing received messages.
+ */
 @Singleton
 class GameWebSocketDataSourceImpl @Inject constructor(
     private val authRepository: AuthRepository,

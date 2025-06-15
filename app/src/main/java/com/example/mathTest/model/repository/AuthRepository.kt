@@ -15,6 +15,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+/**
+ * Repository for handling authentication-related operations.
+ */
 interface AuthRepository {
     val authState: StateFlow<AuthState>
 
@@ -25,6 +28,10 @@ interface AuthRepository {
     suspend fun getJwtToken(): String?
 }
 
+/**
+ * Implementation of [AuthRepository] that interacts with Supabase for authentication
+ * and manages user preferences.
+ */
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val supabaseAuthDataSource: SupabaseAuthDataSource,

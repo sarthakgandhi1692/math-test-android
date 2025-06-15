@@ -18,6 +18,17 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable function for an authentication text field.
+ *
+ * @param value The current value of the text field.
+ * @param onValueChange Callback for when the value of the text field changes.
+ * @param label The label for the text field.
+ * @param isPassword Whether the text field is for a password.
+ * @param keyboardType The keyboard type for the text field.
+ * @param imeAction The IME action for the text field.
+ * @param modifier The modifier for the text field.
+ */
 @Composable
 fun AuthTextField(
     value: String,
@@ -41,6 +52,14 @@ fun AuthTextField(
     )
 }
 
+/**
+ * Composable function for an authentication button.
+ *
+ * @param modifier The modifier for the button.
+ * @param text The text to display on the button.
+ * @param onClick Callback for when the button is clicked.
+ * @param isLoading Whether the button is in a loading state.
+ */
 @Composable
 fun AuthButton(
     modifier: Modifier = Modifier,
@@ -66,6 +85,12 @@ fun AuthButton(
     }
 }
 
+/**
+ * Composable function for displaying an authentication error message.
+ *
+ * @param modifier The modifier for the error text.
+ * @param error The error message to display.
+ */
 @Composable
 fun AuthErrorText(
     modifier: Modifier = Modifier,
