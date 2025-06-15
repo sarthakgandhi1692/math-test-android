@@ -20,50 +20,49 @@ class SupabaseAuthDataSourceImpl @Inject constructor(
     private val supabaseClient: SupabaseClient
 ) : SupabaseAuthDataSource {
 
+    companion object {
+        private const val TAG = "SupabaseAuthRepository"
+    }
+
     override suspend fun signIn(email: String, password: String) {
         try {
-            Log.d("SupabaseAuthRepository", "Attempting to sign in with email: $email")
-            Log.d("SupabaseAuthRepository", "Supabase URL: ${supabaseClient.supabaseUrl}")
-
             supabaseClient.auth.signInWith(Email) {
                 this.email = email
                 this.password = password
             }
-            Log.d("SupabaseAuthRepository", "User logged in successfully")
+            Log.d(TAG, "User logged in successfully")
         } catch (e: Exception) {
-            Log.e("SupabaseAuthRepository", "Error during sign in: ${e.message}", e)
+            Log.e(TAG, "Error during sign in: ${e.message}", e)
             throw e
         }
     }
 
     override suspend fun signUp(email: String, password: String) {
         try {
-            Log.d("SupabaseAuthRepository", "Attempting to sign up with email: $email")
             supabaseClient.auth.signUpWith(Email) {
                 this.email = email
                 this.password = password
             }
-            Log.d("SupabaseAuthRepository", "User signed up successfully")
+            Log.d(TAG, "User signed up successfully")
         } catch (e: Exception) {
-            Log.e("SupabaseAuthRepository", "Error during sign up: ${e.message}", e)
+            Log.e(TAG, "Error during sign up: ${e.message}", e)
             throw e
         }
     }
 
     override suspend fun signOut() {
         try {
-            Log.d("SupabaseAuthRepository", "Attempting to sign out")
             supabaseClient.auth.signOut()
-            Log.d("SupabaseAuthRepository", "User signed out successfully")
+            Log.d(TAG, "User signed out successfully")
         } catch (e: Exception) {
-            Log.e("SupabaseAuthRepository", "Error during sign out: ${e.message}", e)
+            Log.e(TAG, "Error during sign out: ${e.message}", e)
             throw e
         }
     }
 
     override suspend fun getCurrentUser(): UserInfo? {
         val user = supabaseClient.auth.currentUserOrNull()
-        Log.d("SupabaseAuthRepository", "Current user: ${user?.id ?: "null"}")
+        Log.d(TAG, "Current user: ${user?.id ?: "null"}")
         return user
     }
 

@@ -1,16 +1,12 @@
 package com.example.mathTest.model.repository
 
 import com.example.mathTest.model.datasource.GameWebSocketDataSource
+import com.example.mathTest.model.websocket.WebSocketMessage
 import com.example.mathTest.ui.uiStates.GameState
 import com.example.mathTest.ui.uiStates.GameStatus
-import com.example.mathTest.model.websocket.WebSocketMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,11 +34,8 @@ class GameRepositoryImpl @Inject constructor(
     override val gameStatus: StateFlow<GameStatus> = _gameStatus.asStateFlow()
 
     init {
-        val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-        repositoryScope.launch {
-            webSocket.messages.collect { message ->
-                handleWebSocketMessage(message)
-            }
+        webSocket.onMessageReceived = { message ->
+            handleWebSocketMessage(message)
         }
     }
 
@@ -89,9 +82,6 @@ class GameRepositoryImpl @Inject constructor(
     override suspend fun updateTimeLeft(timeLeft: Int) {
         if (_gameState.value.isGameActive) {
             _gameState.value = _gameState.value.copy(timeLeft = timeLeft)
-            if (timeLeft <= 0) {
-                endGame()
-            }
         }
     }
 
@@ -139,7 +129,9 @@ class GameRepositoryImpl @Inject constructor(
             is WebSocketMessage.Question -> {
                 _gameState.value = _gameState.value.copy(
                     currentQuestion = message.questionId,
-                    expression = message.expression
+                    expression = message.expression,
+                    questionNumber = message.questionNumber,
+                    totalQuestions = message.totalQuestions
                 )
             }
 

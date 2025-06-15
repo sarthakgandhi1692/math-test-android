@@ -21,6 +21,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"https://math-game-backend-production-d2b1.up.railway.app/\"")
+        buildConfigField("String", "SUPABASE_URL", "\"https://vyiddmxdfershfttxlsu.supabase.co\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aWRkbXhkZmVyc2hmdHR4bHN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3MzYyNDAsImV4cCI6MjA2NTMxMjI0MH0.F4bImtsk-DRn_Ya3SWlRr2z0s1XH06s_36exUf6s6IE\"")
     }
 
     buildTypes {
@@ -41,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

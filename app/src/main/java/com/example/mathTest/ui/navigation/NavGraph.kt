@@ -96,7 +96,7 @@ fun NavGraph(
                 },
                 onBackToHome = {
                     navController.navigate(Screen.Home) {
-                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                        popUpTo(Screen.Home) { inclusive = true }
                     }
                 }
             )

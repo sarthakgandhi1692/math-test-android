@@ -14,7 +14,6 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.annotations.SupabaseInternal
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
 import io.ktor.utils.io.InternalAPI
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
@@ -44,7 +43,6 @@ class SupabaseModule {
             ) {
                 requestTimeout = 30.seconds
                 install(Auth)
-                install(Postgrest)
             }
         }
     }

@@ -3,24 +3,23 @@ package com.example.mathTest.ui.leaderboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mathTest.base.Result
+import com.example.mathTest.di.qualifiers.DispatcherIO
 import com.example.mathTest.model.repository.LeaderboardRepository
-import com.example.mathTest.model.response.LeaderboardEntry
+import com.example.mathTest.ui.uiStates.LeaderboardState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LeaderboardState(
-    val isLoading: Boolean = true,
-    val leaderboard: List<LeaderboardEntry> = emptyList(),
-    val error: String? = null
-)
 
 @HiltViewModel
 class LeaderboardViewModel @Inject constructor(
-    private val leaderboardRepository: LeaderboardRepository
+    private val leaderboardRepository: LeaderboardRepository,
+    @DispatcherIO
+    private val dispatcherIO: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LeaderboardState())
@@ -31,7 +30,7 @@ class LeaderboardViewModel @Inject constructor(
     }
 
     fun loadLeaderboard() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherIO) {
             _state.value = _state.value.copy(
                 isLoading = true,
                 error = null

@@ -9,5 +9,7 @@ data class GameState(
     val isGameActive: Boolean = false,
     val gameEnded: Boolean = false,
     val result: String = "",
-    val error: String? = null
+    val error: String? = null,
+    val questionNumber: Int = 0,
+    val totalQuestions: Int = 0
 )

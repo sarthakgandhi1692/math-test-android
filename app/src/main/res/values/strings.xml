@@ -31,4 +31,7 @@
     <string name="you">You</string>
     <string name="back_to_home">Back to Home</string>
     <string name="opponent">Opponent</string>
+    <string name="time">Time: %1$s</string>
+    <string name="question_number_format">Question %1$d of %2$d</string>
+    <string name="game_over">Game Over!</string>
 </resources>

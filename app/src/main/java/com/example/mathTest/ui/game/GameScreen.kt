@@ -97,7 +97,7 @@ fun GameScreen(
             ) {
                 // Timer
                 Text(
-                    text = "Time: ${gameState.timeLeft}",
+                    text = stringResource(R.string.time, gameState.timeLeft),
                     style = MaterialTheme.typography.headlineMedium,
                     color = if (gameState.timeLeft <= 10) MaterialTheme.colorScheme.error
                     else MaterialTheme.colorScheme.primary
@@ -117,14 +117,33 @@ fun GameScreen(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Text(
-                        text = gameState.expression,
-                        style = MaterialTheme.typography.headlineLarge,
+                    Column(
                         modifier = Modifier
-                            .padding(24.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // Question number
+                        if (gameState.totalQuestions > 0) {
+                            Text(
+                                text = stringResource(
+                                    R.string.question_number_format,
+                                    gameState.questionNumber,
+                                    gameState.totalQuestions
+                                ),
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                        }
+                        
+                        Text(
+                            text = gameState.expression,
+                            style = MaterialTheme.typography.headlineLarge,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -160,7 +179,7 @@ fun GameScreen(
                 // Game Over Message
                 if (!gameState.isGameActive) {
                     Text(
-                        text = "Game Over!",
+                        text = stringResource(R.string.game_over),
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.error
                     )

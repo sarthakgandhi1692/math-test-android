@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,9 +47,9 @@ fun GameResultScreen(
             },
             style = MaterialTheme.typography.headlineLarge,
             color = when (result) {
-                GameResult.DRAW.toString() -> MaterialTheme.colorScheme.primary
-                GameResult.WIN.toString() -> MaterialTheme.colorScheme.tertiary
-                GameResult.LOSE.toString() -> MaterialTheme.colorScheme.error
+                GameResult.DRAW.toString() -> Color.Black
+                GameResult.WIN.toString() -> Color.Green
+                GameResult.LOSE.toString() -> Color.Red
                 else -> MaterialTheme.colorScheme.primary
             }
         )

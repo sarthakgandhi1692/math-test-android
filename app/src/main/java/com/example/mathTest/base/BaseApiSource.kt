@@ -38,7 +38,7 @@ abstract class BaseApiSource {
                 getDefaultError(response.code())
             }
         } catch (e: Exception) {
-            Log.e("BaseApiSource", e.toString())
+            Log.e(TAG, e.toString())
             return error(e)
         }
     }

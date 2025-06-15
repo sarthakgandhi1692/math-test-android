@@ -4,9 +4,6 @@ import android.util.Log
 import com.example.mathTest.di.qualifiers.BaseUrl
 import com.example.mathTest.model.repository.AuthRepository
 import com.example.mathTest.model.websocket.WebSocketMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface GameWebSocketDataSource {
-    val messages: StateFlow<WebSocketMessage>
+    var onMessageReceived: ((WebSocketMessage) -> Unit)?
 
     suspend fun connect()
     fun disconnect()
@@ -40,10 +37,14 @@ class GameWebSocketDataSourceImpl @Inject constructor(
     }
 
     private var webSocket: WebSocket? = null
-    private val _messages = MutableStateFlow<WebSocketMessage>(WebSocketMessage.Default)
-    override val messages: StateFlow<WebSocketMessage> = _messages
+    override var onMessageReceived: ((WebSocketMessage) -> Unit)? = null
 
     override suspend fun connect() {
+        if (onMessageReceived == null) {
+            Log.e(TAG, "Message handler not set. Please set onMessageReceived before connecting")
+            return
+        }
+
         val token = authRepository.getJwtToken()
         if (token == null) {
             Log.e(TAG, "No JWT token available")
@@ -87,7 +88,7 @@ class GameWebSocketDataSourceImpl @Inject constructor(
                 Log.d(TAG, "Received message: $text")
                 try {
                     val message = json.decodeFromString<WebSocketMessage>(text)
-                    _messages.update { message }
+                    onMessageReceived?.invoke(message)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error parsing message", e)
                 }

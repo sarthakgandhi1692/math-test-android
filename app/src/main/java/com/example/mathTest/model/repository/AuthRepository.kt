@@ -23,7 +23,6 @@ interface AuthRepository {
     suspend fun signOut()
     suspend fun isUserLoggedIn()
     suspend fun getJwtToken(): String?
-    fun clearError()
 }
 
 @Singleton
@@ -32,6 +31,10 @@ class AuthRepositoryImpl @Inject constructor(
     private val userPreferencesDataSource: UserPreferencesDataSource,
     private val jwtGenerator: JwtGenerator
 ) : AuthRepository {
+
+    companion object {
+        private const val TAG = "AuthRepositoryImpl"
+    }
 
     private val _authState = MutableStateFlow(AuthState())
     override val authState: StateFlow<AuthState> = _authState.asStateFlow()
@@ -87,11 +90,6 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override fun clearError() {
-        _authState.update { it.copy(error = null) }
-    }
-
     override suspend fun isUserLoggedIn() {
         userPreferencesDataSource.isUserLoggedIn.collectLatest { value ->
             _authState.update { it.copy(isLoggedIn = value) }
@@ -100,7 +98,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getJwtToken(): String? {
         val token = userPreferencesDataSource.currentUserInfo.first().token
-        Log.d("SupabaseAuthRepository", "JWT token: ${token?.take(10)}...")
         return token
     }
 
@@ -108,14 +105,11 @@ class AuthRepositoryImpl @Inject constructor(
         try {
             val user = supabaseAuthDataSource.getCurrentUser()
             if (user != null) {
-                Log.d("SupabaseAuthRepository", "Saving user info for user: ${user.id}")
                 // Generate JWT token
                 val token = jwtGenerator.generateToken(
                     userId = user.id,
                     email = user.email ?: ""
                 )
-                Log.d("SupabaseAuthRepository", "Generated JWT token: ${token.take(10)}...")
-                Log.d("SupabaseAuthRepository", "User info: $user")
                 userPreferencesDataSource.saveUserInfo(
                     userId = user.id,
                     email = user.email ?: "",
@@ -124,12 +118,12 @@ class AuthRepositoryImpl @Inject constructor(
                     ).toString(),
                     token = token
                 )
-                Log.d("SupabaseAuthRepository", "User info saved successfully")
+                Log.d(TAG, "User info saved successfully")
             } else {
-                Log.e("SupabaseAuthRepository", "Failed to save user info: user is null")
+                Log.e(TAG, "Failed to save user info: user is null")
             }
         } catch (e: Exception) {
-            Log.e("SupabaseAuthRepository", "Error saving user info: ${e.message}", e)
+            Log.e(TAG, "Error saving user info: ${e.message}", e)
             throw e
         }
     }
