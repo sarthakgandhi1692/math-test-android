@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface LeaderboardApi {
-    @GET("api/test/game/leaderboard")
+    @GET("api/leaderboard")
     suspend fun getLeaderboard(): Response<LeaderboardResponse>
 } 
