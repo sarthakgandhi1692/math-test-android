@@ -17,7 +17,7 @@ class ConstantsModule {
     @BaseUrl
     @Singleton
     fun provideBaseUrl(): String {
-        return "http://10.0.2.2:8080/"
+        return "https://math-game-backend-production-d2b1.up.railway.app/"
     }
 
     @Provides

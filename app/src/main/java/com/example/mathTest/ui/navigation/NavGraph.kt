@@ -40,6 +40,9 @@ fun NavGraph(
                     navController.navigate(Screen.Home) {
                         popUpTo(Screen.Register) { inclusive = true }
                     }
+                },
+                onNavigateToLogin = {
+                    navController.popBackStack()
                 }
             )
         }
