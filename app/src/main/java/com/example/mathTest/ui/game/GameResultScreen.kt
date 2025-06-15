@@ -1,5 +1,6 @@
 package com.example.mathTest.ui.game
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,11 @@ fun GameResultScreen(
     onBackToHome: () -> Unit,
     onViewLeaderboard: () -> Unit
 ) {
+
+    BackHandler(enabled = true) {
+        // Disabling back press
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
