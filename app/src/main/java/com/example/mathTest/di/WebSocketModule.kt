@@ -1,7 +1,7 @@
 package com.example.mathTest.di
 
-import com.example.mathTest.model.datasource.GameWebSocketDataSourceImpl
 import com.example.mathTest.model.datasource.GameWebSocketDataSource
+import com.example.mathTest.model.datasource.GameWebSocketDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
