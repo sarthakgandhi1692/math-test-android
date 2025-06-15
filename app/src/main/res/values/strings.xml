@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="leaderboard_title">Leaderboard</string>
+    <string name="something_went_wrong_please_try_again">Something went wrong. Please try again.</string>
+    <string name="rank">Rank</string>
+    <string name="email">Email</string>
+    <string name="score">Score</string>
+    <string name="games">Games</string>
+    <string name="retry">Retry</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="end_game">End Game</string>
+    <string name="score_placeholder">Score: %1$s</string>
+    <string name="your_answer">Your Answer</string>
+    <string name="submit_answer">Submit Answer</string>
+    <string name="logout">Logout</string>
+    <string name="math_challenge">Math Challenge</string>
+    <string name="finding_an_opponent">Finding an opponent...</string>
+    <string name="cancel">Cancel</string>
+    <string name="find_opponent">Find Opponent</string>
+    <string name="view_leaderboard">View Leaderboard</string>
+    <string name="it_s_a_draw">It\'s a Draw!</string>
+    <string name="you_won">You Won!</string>
+    <string name="you_lost">You Lost!</string>
+    <string name="final_score">Final Score</string>
+    <string name="you">You</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="opponent">Opponent</string>
+</resources>
