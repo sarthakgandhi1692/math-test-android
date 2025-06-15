@@ -1,5 +1,6 @@
 package com.example.mathTest.ui.game
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,7 +23,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mathTest.R
 import com.example.mathTest.ui.uiStates.GameState
-import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(
@@ -45,8 +42,10 @@ fun GameScreen(
 ) {
     val gameState by viewModel.gameState.collectAsState()
     var userAnswer by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
-    val snackBarHostState = remember { SnackbarHostState() }
+
+    BackHandler(enabled = true) {
+        // Disabling back press
+    }
 
     // Start game when screen is first shown
     LaunchedEffect(Unit) {
@@ -59,18 +58,7 @@ fun GameScreen(
         }
     }
 
-    // Show error if any
-    gameState.error?.let { error ->
-        LaunchedEffect(error) {
-            scope.launch {
-                snackBarHostState.showSnackbar(message = error)
-            }
-        }
-    }
-
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackBarHostState) }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -136,7 +124,7 @@ fun GameScreen(
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
                         }
-                        
+
                         Text(
                             text = gameState.expression,
                             style = MaterialTheme.typography.headlineLarge,
