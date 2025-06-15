@@ -105,10 +105,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - Initial work
+- Your Name - Sarthak Gandhi
 
 ## 🙏 Acknowledgments
 
-- Thanks to all contributors
 - Inspired by real-time math challenge games
 - Built with modern Android development practices 
