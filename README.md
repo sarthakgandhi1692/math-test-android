@@ -89,7 +89,14 @@ SUPABASE_KEY=your_supabase_key
 
 ## 📱 Screenshots
 
-[Add your screenshots here]
+![Login Screen](assets/screenshots/login_screen.png)
+![Register Screen](assets/screenshots/register_screen.png)
+![Home Screen](assets/screenshots/home_screen.png)
+![Waiting Screen](assets/screenshots/game_1.png)
+![Game Screen](assets/screenshots/game_2.png)
+![Result Screen](assets/screenshots/result_screen.png)
+![Leaderboard Screen](assets/screenshots/leaderboard_screen.png)
+
 
 ## 🤝 Contributing
 
