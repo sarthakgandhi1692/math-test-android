@@ -36,9 +36,6 @@ fun LoginScreen(
 ) {
     val state by viewModel.authState.collectAsState()
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
     if (state.isLoggedIn) {
         onLoginSuccess()
         return
@@ -58,11 +55,37 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        LoginForm(
+            isLoading = state.isLoading,
+            error = state.error,
+            onLogin = viewModel::login
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextButton(onClick = onNavigateToRegister) {
+            Text(stringResource(R.string.don_t_have_an_account_register))
+        }
+    }
+}
+
+@Composable
+private fun LoginForm(
+    isLoading: Boolean,
+    error: String?,
+    onLogin: (String, String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         AuthTextField(
             value = email,
-            onValueChange = {
-                email = it
-            },
+            onValueChange = { email = it },
             label = stringResource(R.string.email),
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
@@ -72,9 +95,7 @@ fun LoginScreen(
 
         AuthTextField(
             value = password,
-            onValueChange = {
-                password = it
-            },
+            onValueChange = { password = it },
             label = stringResource(R.string.password),
             isPassword = true,
             keyboardType = KeyboardType.Password,
@@ -84,7 +105,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         AuthErrorText(
-            error = state.error,
+            error = error,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -92,16 +113,8 @@ fun LoginScreen(
 
         AuthButton(
             text = stringResource(R.string.login),
-            onClick = {
-                viewModel.login(email, password)
-            },
-            isLoading = state.isLoading
+            onClick = { onLogin(email, password) },
+            isLoading = isLoading
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextButton(onClick = onNavigateToRegister) {
-            Text(stringResource(R.string.don_t_have_an_account_register))
-        }
     }
 }

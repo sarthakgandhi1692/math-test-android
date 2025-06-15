@@ -38,10 +38,6 @@ fun RegisterScreen(
 ) {
     val state by viewModel.authState.collectAsState()
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-
     if (state.isLoggedIn) {
         onRegisterSuccess()
         return
@@ -61,11 +57,38 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        RegisterForm(
+            isLoading = state.isLoading,
+            error = state.error,
+            onRegister = viewModel::register
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextButton(onClick = onNavigateToLogin) {
+            Text(stringResource(R.string.already_have_an_account_login))
+        }
+    }
+}
+
+@Composable
+private fun RegisterForm(
+    isLoading: Boolean,
+    error: String?,
+    onRegister: (String, String, String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         AuthTextField(
             value = email,
-            onValueChange = {
-                email = it
-            },
+            onValueChange = { email = it },
             label = stringResource(R.string.email),
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
@@ -75,9 +98,7 @@ fun RegisterScreen(
 
         AuthTextField(
             value = password,
-            onValueChange = {
-                password = it
-            },
+            onValueChange = { password = it },
             label = stringResource(R.string.password),
             isPassword = true,
             keyboardType = KeyboardType.Password,
@@ -88,9 +109,7 @@ fun RegisterScreen(
 
         AuthTextField(
             value = confirmPassword,
-            onValueChange = {
-                confirmPassword = it
-            },
+            onValueChange = { confirmPassword = it },
             label = stringResource(R.string.confirm_password),
             isPassword = true,
             keyboardType = KeyboardType.Password,
@@ -100,7 +119,7 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         AuthErrorText(
-            error = state.error,
+            error = error,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -108,20 +127,8 @@ fun RegisterScreen(
 
         AuthButton(
             text = stringResource(R.string.register),
-            onClick = {
-                viewModel.register(
-                    email,
-                    password,
-                    confirmPassword
-                )
-            },
-            isLoading = state.isLoading
+            onClick = { onRegister(email, password, confirmPassword) },
+            isLoading = isLoading
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextButton(onClick = onNavigateToLogin) {
-            Text(stringResource(R.string.already_have_an_account_login))
-        }
     }
 }

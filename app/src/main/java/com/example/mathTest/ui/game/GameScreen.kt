@@ -41,13 +41,11 @@ fun GameScreen(
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val gameState by viewModel.gameState.collectAsState()
-    var userAnswer by remember { mutableStateOf("") }
 
     BackHandler(enabled = true) {
         // Disabling back press
     }
 
-    // Start game when screen is first shown
     LaunchedEffect(Unit) {
         viewModel.startGame()
     }
@@ -64,18 +62,12 @@ fun GameScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // End Game Button at top right
-            OutlinedButton(
-                onClick = { viewModel.endGame() },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(16.dp),
-                enabled = gameState.isGameActive
-            ) {
-                Text(stringResource(R.string.end_game))
-            }
+            EndGameButton(
+                isEnabled = gameState.isGameActive,
+                onEndGame = viewModel::endGame,
+                modifier = Modifier.align(Alignment.TopEnd)
+            )
 
-            // Main content
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -83,96 +75,163 @@ fun GameScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Timer
-                Text(
-                    text = stringResource(R.string.time, gameState.timeLeft),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = if (gameState.timeLeft <= 10) MaterialTheme.colorScheme.error
-                    else MaterialTheme.colorScheme.primary
-                )
+                GameTimer(timeLeft = gameState.timeLeft)
+                
+                GameScore(score = gameState.score)
 
-                // Score
-                Text(
-                    text = stringResource(R.string.score_placeholder, gameState.score),
-                    style = MaterialTheme.typography.headlineMedium
+                Spacer(modifier = Modifier.height(32.dp))
+
+                QuestionCard(
+                    expression = gameState.expression,
+                    questionNumber = gameState.questionNumber,
+                    totalQuestions = gameState.totalQuestions
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Question
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // Question number
-                        if (gameState.totalQuestions > 0) {
-                            Text(
-                                text = stringResource(
-                                    R.string.question_number_format,
-                                    gameState.questionNumber,
-                                    gameState.totalQuestions
-                                ),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                        }
-
-                        Text(
-                            text = gameState.expression,
-                            style = MaterialTheme.typography.headlineLarge,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                // Answer Input
-                OutlinedTextField(
-                    value = userAnswer,
-                    onValueChange = {
-                        if (it.isEmpty() || it.toIntOrNull() != null) {
-                            userAnswer = it
-                        }
-                    },
-                    label = { Text(stringResource(R.string.your_answer)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = gameState.isGameActive
+                AnswerInput(
+                    isGameActive = gameState.isGameActive,
+                    onSubmitAnswer = viewModel::submitAnswer
                 )
 
-                // Submit Button
-                Button(
-                    onClick = {
-                        viewModel.submitAnswer(userAnswer)
-                        userAnswer = ""
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    enabled = gameState.isGameActive && userAnswer.isNotEmpty()
-                ) {
-                    Text(stringResource(R.string.submit_answer), fontSize = 18.sp)
-                }
-
-                // Game Over Message
                 if (!gameState.isGameActive) {
-                    Text(
-                        text = stringResource(R.string.game_over),
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.error
-                    )
+                    GameOverMessage()
                 }
             }
         }
     }
+}
+
+@Composable
+private fun GameTimer(
+    timeLeft: Int,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(R.string.time, timeLeft),
+        style = MaterialTheme.typography.headlineMedium,
+        color = if (timeLeft <= 10) MaterialTheme.colorScheme.error
+        else MaterialTheme.colorScheme.primary,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun GameScore(
+    score: Int,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(R.string.score_placeholder, score),
+        style = MaterialTheme.typography.headlineMedium,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun EndGameButton(
+    isEnabled: Boolean,
+    onEndGame: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedButton(
+        onClick = onEndGame,
+        modifier = modifier.padding(16.dp),
+        enabled = isEnabled
+    ) {
+        Text(stringResource(R.string.end_game))
+    }
+}
+
+@Composable
+private fun QuestionCard(
+    expression: String,
+    questionNumber: Int,
+    totalQuestions: Int,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (totalQuestions > 0) {
+                Text(
+                    text = stringResource(
+                        R.string.question_number_format,
+                        questionNumber,
+                        totalQuestions
+                    ),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+
+            Text(
+                text = expression,
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+private fun AnswerInput(
+    isGameActive: Boolean,
+    onSubmitAnswer: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var userAnswer by remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        OutlinedTextField(
+            value = userAnswer,
+            onValueChange = {
+                if (it.isEmpty() || it.toIntOrNull() != null) {
+                    userAnswer = it
+                }
+            },
+            label = { Text(stringResource(R.string.your_answer)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = isGameActive
+        )
+
+        Button(
+            onClick = {
+                onSubmitAnswer(userAnswer)
+                userAnswer = ""
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            enabled = isGameActive && userAnswer.isNotEmpty()
+        ) {
+            Text(stringResource(R.string.submit_answer), fontSize = 18.sp)
+        }
+    }
+}
+
+@Composable
+private fun GameOverMessage(
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(R.string.game_over),
+        style = MaterialTheme.typography.headlineLarge,
+        color = MaterialTheme.colorScheme.error,
+        modifier = modifier
+    )
 }
