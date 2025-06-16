@@ -26,6 +26,7 @@ interface AuthRepository {
     suspend fun signOut()
     suspend fun isUserLoggedIn()
     suspend fun getJwtToken(): String?
+    suspend fun refreshTokenIfNeeded(): String?
 }
 
 /**
@@ -104,8 +105,39 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getJwtToken(): String? {
-        val token = userPreferencesDataSource.currentUserInfo.first().token
-        return token
+        return refreshTokenIfNeeded()
+    }
+
+    override suspend fun refreshTokenIfNeeded(): String? {
+        val currentToken = userPreferencesDataSource.currentUserInfo.first().token
+        
+        // Check if token is expired
+        if (jwtGenerator.isTokenExpired(currentToken)) {
+            Log.d(TAG, "Token expired, regenerating...")
+            // Get current user info to regenerate token
+            val user = supabaseAuthDataSource.getCurrentUser()
+            if (user != null) {
+                // Generate new token
+                val newToken = jwtGenerator.generateToken(
+                    userId = user.id,
+                    email = user.email ?: ""
+                )
+                // Save new token
+                userPreferencesDataSource.saveUserInfo(
+                    userId = user.id,
+                    email = user.email ?: "",
+                    name = if (user.userMetadata?.get("name") == null) "" else user.userMetadata?.get(
+                        "name"
+                    ).toString(),
+                    token = newToken
+                )
+                return newToken
+            } else {
+                Log.e(TAG, "Failed to refresh token: user is null")
+                return null
+            }
+        }
+        return currentToken
     }
 
     private suspend fun saveUserInfo() {

@@ -32,7 +32,7 @@ class JwtGenerator
         role: String = "authenticated"
     ): String {
         val now = Date()
-        val expiresAt = Date(now.time + 12 * 3600 * 1000) // 12 hours from now
+        val expiresAt = Date(now.time + 3 * 24 * 3600 * 1000) // 3 days from now
 
         return JWT.create()
             .withIssuer(ISSUER)
@@ -43,6 +43,23 @@ class JwtGenerator
             .withClaim("role", role)
             .withClaim("aud", AUDIENCE)
             .sign(Algorithm.HMAC256(jwtSecret))
+    }
+
+    /**
+     * Checks if a JWT token has expired.
+     *
+     * @param token The JWT token to check
+     * @return true if the token has expired, false otherwise
+     */
+    fun isTokenExpired(token: String?): Boolean {
+        if (token == null) return true
+        return try {
+            val decodedJWT = JWT.decode(token)
+            val expirationDate = decodedJWT.expiresAt
+            expirationDate?.before(Date()) != false
+        } catch (e: Exception) {
+            true
+        }
     }
 
     private fun extractJwtSecret(anonKey: String): String {
